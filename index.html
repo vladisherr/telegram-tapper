@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="telegram:channel" content="@ваш_канал">
+    <meta name="telegram:bot" content="@имя_вашего_бота">
     <title>Crypto Mining Tapper</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="styles.css">
@@ -27,8 +29,19 @@
         </header>
 
         <main class="main-content">
+            <div class="mining-animation" id="mining-animation">
+                <div class="coin-container"></div>
+            </div>
+            
             <section class="miners-grid">
                 <!-- Miners will be dynamically added here -->
+            </section>
+
+            <section class="achievements-section">
+                <h3>Достижения</h3>
+                <div class="achievements-container" id="achievements-list">
+                    <!-- Achievements will be added here -->
+                </div>
             </section>
 
             <section class="upgrade-section">
@@ -43,6 +56,9 @@
             <div class="stats">
                 <div class="total-mined">Всего намайнено: <span>0 USDT</span></div>
                 <div class="mining-rate">Скорость майнинга: <span>0 USDT/час</span></div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="mining-progress"></div>
             </div>
         </footer>
     </div>
