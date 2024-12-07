@@ -1,0 +1,15 @@
+# IDE files
+.vscode/
+.idea/
+*.sublime-*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Node modules if you decide to use npm
+node_modules/
+
+# Environment variables
+.env
+.env.local

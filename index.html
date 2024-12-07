@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Mining Tapper</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="pool-info">
+                <h2>Общий пул</h2>
+                <div class="pool-amount">10,000 USDT</div>
+            </div>
+            <div class="user-info">
+                <div class="user-balance">
+                    <span>Ваш баланс:</span>
+                    <span class="balance-amount">0 USDT</span>
+                </div>
+                <div class="mining-power">
+                    <span>Мощность майнинга:</span>
+                    <span class="power-amount">0 H/s</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="miners-grid">
+                <!-- Miners will be dynamically added here -->
+            </section>
+
+            <section class="upgrade-section">
+                <h3>Улучшения</h3>
+                <div class="upgrades-container">
+                    <!-- Upgrades will be dynamically added here -->
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="stats">
+                <div class="total-mined">Всего намайнено: <span>0 USDT</span></div>
+                <div class="mining-rate">Скорость майнинга: <span>0 USDT/час</span></div>
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
