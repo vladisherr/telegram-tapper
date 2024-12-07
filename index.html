@@ -27,8 +27,19 @@
         </header>
 
         <main class="main-content">
+            <div class="mining-animation" id="mining-animation">
+                <div class="coin-container"></div>
+            </div>
+            
             <section class="miners-grid">
                 <!-- Miners will be dynamically added here -->
+            </section>
+
+            <section class="achievements-section">
+                <h3>Достижения</h3>
+                <div class="achievements-container" id="achievements-list">
+                    <!-- Achievements will be added here -->
+                </div>
             </section>
 
             <section class="upgrade-section">
@@ -43,6 +54,9 @@
             <div class="stats">
                 <div class="total-mined">Всего намайнено: <span>0 USDT</span></div>
                 <div class="mining-rate">Скорость майнинга: <span>0 USDT/час</span></div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="mining-progress"></div>
             </div>
         </footer>
     </div>

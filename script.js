@@ -21,8 +21,39 @@ const gameState = {
     miningPower: CONFIG.INITIAL_MINING_POWER,
     miners: {},
     totalMined: 0,
-    lastUpdate: Date.now()
+    lastUpdate: Date.now(),
+    achievements: {},
+    lastCoinAnimation: Date.now()
 };
+
+// Достижения
+const ACHIEVEMENTS = [
+    {
+        id: 'first_miner',
+        name: 'Первый майнер',
+        description: 'Купите вашего первого майнера',
+        icon: '🎮',
+        condition: (state) => Object.values(state.miners).some(m => m.count > 0)
+    },
+    {
+        id: 'speed_demon',
+        name: 'Скоростной демон',
+        description: 'Достигните скорости майнинга 0.1 USDT/с',
+        icon: '⚡',
+        condition: (state) => state.miningPower >= 0.1
+    },
+    {
+        id: 'millionaire',
+        name: 'Миллионер',
+        description: 'Намайните 1000 USDT',
+        icon: '💰',
+        condition: (state) => state.totalMined >= 1000
+    }
+];
+
+ACHIEVEMENTS.forEach(a => {
+    gameState.achievements[a.id] = false;
+});
 
 // Инициализация майнеров
 function initializeMiners() {
@@ -100,6 +131,79 @@ function updateUI() {
     });
 }
 
+// Функция создания анимации монетки
+function createCoinAnimation() {
+    const container = document.querySelector('.coin-container');
+    const coin = document.createElement('div');
+    coin.className = 'coin';
+    
+    // Рандомная позиция по X
+    const randomX = Math.random() * (container.offsetWidth - 40);
+    coin.style.left = `${randomX}px`;
+    
+    container.appendChild(coin);
+    
+    // Удаляем монетку после анимации
+    setTimeout(() => {
+        coin.remove();
+    }, 3000);
+}
+
+// Обновление прогресс-бара
+function updateProgressBar() {
+    const progress = document.getElementById('mining-progress');
+    const maxPower = 0.1; // Максимальная мощность для полной шкалы
+    const percentage = (gameState.miningPower / maxPower) * 100;
+    progress.style.width = `${Math.min(percentage, 100)}%`;
+}
+
+// Проверка достижений
+function checkAchievements() {
+    ACHIEVEMENTS.forEach(achievement => {
+        if (!gameState.achievements[achievement.id] && achievement.condition(gameState)) {
+            gameState.achievements[achievement.id] = true;
+            showAchievementNotification(achievement);
+            updateAchievementsDisplay();
+        }
+    });
+}
+
+// Показ уведомления о достижении
+function showAchievementNotification(achievement) {
+    const notification = document.createElement('div');
+    notification.className = 'achievement-notification';
+    notification.innerHTML = `
+        <div class="achievement-icon">${achievement.icon}</div>
+        <div class="achievement-info">
+            <h4>${achievement.name}</h4>
+            <p>${achievement.description}</p>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// Обновление отображения достижений
+function updateAchievementsDisplay() {
+    const container = document.getElementById('achievements-list');
+    container.innerHTML = '';
+    
+    ACHIEVEMENTS.forEach(achievement => {
+        const card = document.createElement('div');
+        card.className = `achievement-card ${gameState.achievements[achievement.id] ? 'unlocked' : 'locked'}`;
+        card.innerHTML = `
+            <div class="achievement-icon">${achievement.icon}</div>
+            <h4>${achievement.name}</h4>
+            <p>${achievement.description}</p>
+        `;
+        container.appendChild(card);
+    });
+}
+
 // Основной игровой цикл
 function gameLoop() {
     const now = Date.now();
@@ -109,13 +213,24 @@ function gameLoop() {
     gameState.userBalance += mined;
     gameState.totalMined += mined;
     
+    // Создаем анимацию монетки каждые 3 секунды
+    if (now - gameState.lastCoinAnimation > 3000) {
+        createCoinAnimation();
+        gameState.lastCoinAnimation = now;
+    }
+    
     gameState.lastUpdate = now;
+    
     updateUI();
+    updateProgressBar();
+    checkAchievements();
 }
 
 // Инициализация игры
 function initGame() {
     initializeMiners();
+    updateAchievementsDisplay();
+    gameState.lastCoinAnimation = Date.now();
     setInterval(gameLoop, CONFIG.UPDATE_INTERVAL);
     updateUI();
 }
